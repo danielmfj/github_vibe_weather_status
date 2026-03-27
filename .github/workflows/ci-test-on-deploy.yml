@@ -1,6 +1,12 @@
-name: CI Test Coverage on Deployment
+name: CI Test Coverage on Merge
 
 on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
   deployment:
     types: [created]
   deployment_status:
