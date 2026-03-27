@@ -16,6 +16,7 @@ This Python application updates your GitHub profile status using GitHub API base
 3. **Configure Environment:**
    - Edit `.env` with:
      - `OPENWEATHER_API_KEY`
+     - `CITY` (optional, default: `Copenhagen`)
      - `GITHUB_TOKEN` (needs `user:status` scope)
 
 ## Usage

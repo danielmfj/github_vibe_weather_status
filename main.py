@@ -8,7 +8,11 @@ def get_weather():
     api_key = os.getenv('OPENWEATHER_API_KEY')
     if not api_key:
         raise ValueError("OPENWEATHER_API_KEY not set in .env file")
-    city = 'Copenhagen'
+
+    city = os.getenv('CITY', 'Copenhagen').strip()
+    if not city:
+        raise ValueError("CITY must be set in .env file or environment variables")
+
     url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
     response = requests.get(url)
     response.raise_for_status()
@@ -22,7 +26,7 @@ def get_weather():
     if now and sunrise and sunset:
         is_night = now < sunrise or now > sunset
 
-    return {'main': weather_main, 'is_night': is_night}
+    return {'main': weather_main, 'is_night': is_night, 'city': city}
 
 
 def map_weather_to_status(weather_info):
@@ -39,16 +43,17 @@ def map_weather_to_status(weather_info):
         'Mist': {'day_emoji': '🌫️', 'day_text': 'Misty', 'night_emoji': '🌫️', 'night_text': 'Misty night'}
     }
 
+    city = weather_info.get('city', 'Copenhagen')
     record = base_mapping.get(weather)
     if record:
         if is_night:
-            return {'emoji': record['night_emoji'], 'message': f"{record['night_text']} in Copenhagen"}
+            return {'emoji': record['night_emoji'], 'message': f"{record['night_text']} in {city}"}
         else:
-            return {'emoji': record['day_emoji'], 'message': f"{record['day_text']} in Copenhagen"}
+            return {'emoji': record['day_emoji'], 'message': f"{record['day_text']} in {city}"}
 
     if is_night:
-        return {'emoji': '🌙', 'message': f'{weather} at night in Copenhagen'}
-    return {'emoji': '🌤️', 'message': f'{weather} in Copenhagen'}
+        return {'emoji': '🌙', 'message': f'{weather} at night in {city}'}
+    return {'emoji': '🌤️', 'message': f'{weather} in {city}'}
 
 
 def update_github_status(weather):
