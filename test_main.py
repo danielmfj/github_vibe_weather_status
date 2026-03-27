@@ -68,6 +68,12 @@ def test_map_weather_to_status_unknown_weather():
     assert 'Paris' in output['message']
 
 
+def test_map_weather_to_status_phrase():
+    payload = {'main': 'Clear', 'is_night': False, 'city': 'Copenhagen'}
+    output = map_weather_to_status(payload)
+    assert output['message'] == 'Living in a sunny day in Copenhagen'
+
+
 def test_default_status_emoji():
     assert DEFAULT_STATUS['emoji'] == '👀'
     assert 'unavailable' in DEFAULT_STATUS['message'].lower()
