@@ -1,6 +1,6 @@
 # GitHub Weather Status Updater
 
-This Python application updates your GitHub profile status using GitHub API based on current weather in Copenhagen.
+This Python application updates your GitHub profile status using GitHub API based on current weather in the configured city (default: Copenhagen).
 
 ## Setup
 
@@ -27,7 +27,7 @@ python main.py
 ```
 
 The app will:
-1. Fetch current weather in Copenhagen
+1. Fetch current weather in the configured city (`CITY` from .env, defaults to Copenhagen)
 2. Map weather to emoji + message
 3. Update GitHub status via `/user/status`
 
