@@ -17,7 +17,7 @@ This Python application updates your GitHub profile status using GitHub API base
    - Edit `.env` with:
      - `OPENWEATHER_API_KEY`
      - `CITY` (optional, default: `Copenhagen`)
-     - `GITHUB_TOKEN` (needs `user:status` scope)
+     - `GH_TOKEN` (needs `user:status` scope)
 
 ## Usage
 
@@ -33,8 +33,8 @@ The app will:
 
 ## Important Notes
 - **API usage:** This app uses the OpenWeatherMap API for weather data and GitHub API `/user/status` for status updates. This is the supported approach for personal status updates (no browser automation needed).
-- **Security:** Store `GITHUB_TOKEN` in `.env`, not in source control.
-- **Permissions:** `GITHUB_TOKEN` requires `user:status` scope.
+- **Security:** Store `GH_TOKEN` in `.env`, not in source control.
+- **Permissions:** `GH_TOKEN` requires `user:status` scope.
 - **Rate limits:** Be mindful of API limits for OpenWeatherMap and GitHub (core rate limit for authenticated user).
 - **Avatar policy:** GitHub does not support personal avatar updates via public API, so this script uses a status message instead.
 

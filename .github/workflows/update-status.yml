@@ -26,5 +26,5 @@ jobs:
     - name: Update GitHub status
       env:
         OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
       run: python main.py

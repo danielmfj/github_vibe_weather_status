@@ -57,9 +57,9 @@ def map_weather_to_status(weather_info):
 
 
 def update_github_status(weather):
-    token = os.getenv('GITHUB_TOKEN')
+    token = os.getenv('GH_TOKEN')
     if not token:
-        raise ValueError('GITHUB_TOKEN must be set in .env with user status scope')
+        raise ValueError('GH_TOKEN must be set in .env with user status scope')
 
     status = map_weather_to_status(weather)
     payload = {
