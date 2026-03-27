@@ -43,8 +43,10 @@ def update_github_status(weather):
     url = 'https://api.github.com/user/status'
     headers = {
         'Authorization': f'token {token}',
-        'Accept': 'application/vnd.github+json'
+        'Accept': 'application/vnd.github.v3+json'
     }
     r = requests.patch(url, json=payload, headers=headers)
+    if r.status_code == 404:
+        raise ValueError(f'GitHub status endpoint returned 404. Ensure GH_TOKEN has user:status scope and is a valid personal access token. Response: {r.text}')
     r.raise_for_status()
     return r.json()
