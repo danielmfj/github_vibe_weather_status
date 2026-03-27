@@ -13,11 +13,18 @@ This Python application updates your GitHub profile status using GitHub API base
    - Sign up for a free API key at [OpenWeatherMap](https://openweathermap.org/api)
    - Note: Free tier allows 1000 calls/day
 
-3. **Configure Environment:**
+3. **Create GitHub Token:**
+   - Go to [GitHub Settings > Developer settings > Personal access tokens](https://github.com/settings/tokens)
+   - Create a new token with the broadest available scopes (e.g., full `repo` and `user` scopes if available)
+   - **Note:** The `/user/status` endpoint requires specific permissions that may not be available on all accounts or token types
+   - If you get a 404 error, your account or organization may have restrictions on status updates via API
+   - Copy the token and save it securely
+
+4. **Configure Environment:**
    - Edit `.env` with:
      - `OPENWEATHER_API_KEY`
      - `CITY` (optional, default: `Copenhagen`)
-     - `GH_TOKEN` (needs `user:status` scope)
+     - `GH_TOKEN` (your personal access token)
 
 ## Usage
 
@@ -29,12 +36,12 @@ python main.py
 The app will:
 1. Fetch current weather in the configured city (`CITY` from .env, defaults to Copenhagen)
 2. Map weather to emoji + message
-3. Update GitHub status via `/user/status`
+3. Update your GitHub profile status via GraphQL API
 
 ## Important Notes
 - **API usage:** This app uses the OpenWeatherMap API for weather data and GitHub API `/user/status` for status updates. This is the supported approach for personal status updates (no browser automation needed).
 - **Security:** Store `GH_TOKEN` in `.env`, not in source control.
-- **Permissions:** `GH_TOKEN` requires `user:status` scope.
+- **API Limitation:** The `/user/status` endpoint may not be available on all GitHub accounts or token types. If you receive a 404 error, the endpoint may be restricted by GitHub or your organization's policies.
 - **Rate limits:** Be mindful of API limits for OpenWeatherMap and GitHub (core rate limit for authenticated user).
 - **Avatar policy:** GitHub does not support personal avatar updates via public API, so this script uses a status message instead.
 

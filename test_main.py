@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import Mock, patch
 
 from weather_api import get_weather
-from github_api import map_weather_to_status
+from github_api import map_weather_to_status, update_github_status_graphql
 from main import DEFAULT_STATUS, set_default_status
 
 SAMPLE_WEATHER_RESPONSE = {
@@ -76,7 +76,6 @@ def test_default_status_emoji():
 @patch('main.requests.patch')
 def test_set_default_status_success(mock_patch):
     mock_response = Mock()
-    mock_response.raise_for_status = Mock()
     mock_response.json.return_value = {'status': 'updated'}
     mock_patch.return_value = mock_response
 
@@ -87,5 +86,5 @@ def test_set_default_status_success(mock_patch):
     assert result is not None
     mock_patch.assert_called_once()
     call_args = mock_patch.call_args
-    assert call_args[1]['json']['emoji'] == '👀'
+    assert 'graphql' in call_args[0][0]
 

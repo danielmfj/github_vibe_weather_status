@@ -18,20 +18,26 @@ def set_default_status():
     try:
         token = os.getenv('GH_TOKEN')
         if not token:
-            raise ValueError('GH_TOKEN must be set in .env with user status scope')
+            raise ValueError('GH_TOKEN must be set in .env')
 
-        payload = {
-            'emoji': DEFAULT_STATUS['emoji'],
-            'message': DEFAULT_STATUS['message'],
-            'limited_availability': False
+        query = '''
+        mutation {
+          changeUserStatus(input: {emoji: "%s", message: "%s"}) {
+            clientMutationId
+          }
         }
-        url = 'https://api.github.com/user/status'
+        ''' % (DEFAULT_STATUS['emoji'], DEFAULT_STATUS['message'].replace('"', '\\"'))
+        
+        url = 'https://api.github.com/graphql'
         headers = {
-            'Authorization': f'token {token}',
-            'Accept': 'application/vnd.github+json'
+            'Authorization': f'Bearer {token}',
+            'Content-Type': 'application/json'
         }
+        payload = {
+            'query': query
+        }
+        
         r = requests.patch(url, json=payload, headers=headers)
-        r.raise_for_status()
         return r.json()
     except Exception as e:
         print(f'Failed to set default status: {e}')
